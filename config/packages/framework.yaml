@@ -1,0 +1,73 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+
+framework:
+    #esi: ~
+    translator: { fallbacks: ['%locale%'] }
+    secret: '%env(APP_SECRET)%'
+    router:
+        # resource: '%kernel.project_dir%/config/routes.yaml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    cache:  false
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    globals:
+        timetologout: "%env(SESSION_MAX_IDLE_TIME)%"
+
+nucleos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: App\Entity\Users
+    # from_email: "%env(MAILER_USER)%"
+
+knp_snappy:
+    pdf:
+        enabled: true
+        binary: '%kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64'
+        options:
+            - { name: 'viewport-size', value: '1024x768' }
+            - { name: 'page-size', value: 'A4' }
+
+dtc_queue:
+    manager:
+        job: orm
+
+stof_doctrine_extensions:
+    default_locale: "%locale%"
+    translation_fallback: true
+    persist_default_translation: true
+
+    orm:
+        default:
+            translatable:   false
+            blameable:      false
+            timestampable:  false
+            tree:           true
+            uploadable:     false
+            sluggable:      false
+
+sentry:
+    dsn: '%env(SENTRY_ENDPOINT)%'
+    messenger:
+        enabled: true
+        capture_soft_fails: true
+    options:
+        environment: '%kernel.environment%'
+        release: "current"

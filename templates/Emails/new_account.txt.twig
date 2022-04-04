@@ -1,0 +1,19 @@
+{{ account.organizationName }} has invited you to join CaseMGR. Please click the link below to activate your account.
+
+{% if account.isMain() %}
+    https://{{ mainUrl }}/confirmation/{{ user.confirmationToken }}
+{% else %}
+    https://{{ account.data.accountUrl }}/confirmation/{{ user.confirmationToken }}
+{% endif %}
+
+Your CaseMGR domain is:
+{% if account.isMain() %}
+    {{ mainUrl }}
+{% else %}
+    {{ account.data.accountUrl }}
+{% endif %}
+
+Once you’ve activated your account and set a password, you’ll be able to start using the CaseMGR workspace.
+
+Sincerely,
+CaseMGR Solutions

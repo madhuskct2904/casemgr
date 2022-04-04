@@ -1,0 +1,187 @@
+parameters:
+   timezones:
+      Etc/GMT+12:
+         label: "(GMT -12:00) Eniwetok, Kwajalein"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -12
+
+      Pacific/Midway:
+         label: "(GMT -11:00) Midway Island, Samoa"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -11
+
+      Etc/GMT+10:
+         label: "(GMT -10:00) Hawaii"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -10
+
+      Etc/GMT+9:
+         label: "(GMT -9:00) Alaska"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -9
+
+      Etc/GMT+8:
+         label: "(GMT -8:00) Pacific Time (US & Canada)"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -8
+
+      Etc/GMT+7:
+         label: "(GMT -7:00) Mountain Time (US & Canada)"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -7
+
+      Etc/GMT+6:
+         label: "(GMT -6:00) Central Time (US & Canada), Mexico City"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -6
+
+      Etc/GMT+5:
+         label: "(GMT -5:00) Eastern Time (US & Canada), Bogota, Lima"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -5
+
+      Etc/GMT+4:
+         label: "(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -4
+
+      America/St_Johns:
+         label: "(GMT -3:30) Newfoundland"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -3.5
+
+      Etc/GMT+3:
+         label: "(GMT -3:00) Brazil, Buenos Aires, Georgetown"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -3
+
+      Etc/GMT+2:
+         label: "(GMT -2:00) Mid-Atlantic"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -2
+
+      Etc/GMT+1:
+         label: "(GMT -1:00 hour) Azores, Cape Verde Islands"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: -1
+
+      Etc/GMT-0:
+         label: "(GMT) Western Europe Time, London, Lisbon, Casablanca"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 0
+
+      Etc/GMT-1:
+         label: "(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 1
+
+      Etc/GMT-2:
+         label: "(GMT +2:00) Kaliningrad, South Africa"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 2
+
+      Etc/GMT-3:
+         label: "(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 3
+
+      Asia/Tehran:
+         label: "(GMT +3:30) Tehran"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 3.5
+
+      Etc/GMT-4:
+         label: "(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 4
+
+      Asia/Kabul:
+         label: "(GMT +4:30) Kabul"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 4.5
+
+      Etc/GMT-5:
+         label: "(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 5
+
+      Asia/Colombo:
+         label: "(GMT +5:30) Bombay, Calcutta, Madras, New Delhi"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 5.5
+
+      Asia/Katmandu:
+         label: "(GMT +5:45) Kathmandu"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 5.75
+
+      Etc/GMT-6:
+         label: "(GMT +6:00) Almaty, Dhaka, Colombo"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 6
+
+      Etc/GMT-7:
+         label: "(GMT +7:00) Bangkok, Hanoi, Jakarta"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 7
+
+      Etc/GMT-8:
+         label: "(GMT +8:00) Beijing, Perth, Singapore, Hong Kong"
+         dateFormat: "DD/MM/YYYY"
+         phpDateFormat: "d/m/Y"
+         shift: 8
+
+      Etc/GMT-9:
+         label: "(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 9
+
+      Australia/Darwin:
+         label: "(GMT +9:30) Adelaide, Darwin"
+         dateFormat: "DD/MM/YYYY"
+         phpDateFormat: "d/m/Y"
+         shift: 9.5
+
+      Etc/GMT-10:
+         label: "(GMT +10:00) Eastern Australia, Guam, Vladivostok"
+         dateFormat: "DD/MM/YYYY"
+         phpDateFormat: "d/m/Y"
+         shift: 10
+
+      Etc/GMT-11:
+         label: "(GMT +11:00) Magadan, Solomon Islands, New Caledonia"
+         dateFormat: "MM/DD/YYYY"
+         phpDateFormat: "m/d/Y"
+         shift: 11
+
+      Etc/GMT-12:
+         label: "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
+         dateFormat: "DD/MM/YYYY"
+         phpDateFormat: "d/m/Y"
+         shift: 12

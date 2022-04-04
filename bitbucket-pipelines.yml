@@ -1,0 +1,77 @@
+image: atlassian/default-image:2
+
+pipelines:
+  branches:
+    dev:
+      - step:
+          name: "Build"
+          script:
+            - export BUILD_ID=$BITBUCKET_BRANCH_$BITBUCKET_COMMIT_$BITBUCKET_BUILD_NUMBER
+            - echo $BUILD_ID > public/build.txt
+            - zip -r casemgr-dev.zip ./.
+          artifacts:
+            - casemgr-dev.zip
+      - step:
+          name: "Deploy to dev"
+          deployment: "test"
+          trigger: automatic
+          script:
+            - pipe: atlassian/aws-elasticbeanstalk-deploy:0.2.7
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: "us-west-2"
+                APPLICATION_NAME: "CaseMGR API"
+                ENVIRONMENT_NAME: "casemgr-dev-symfony-44"
+                ZIP_FILE: "casemgr-dev.zip"
+                S3_BUCKET: "elasticbeanstalk-us-west-2-804711636895"
+                VERSION_LABEL: "casemgr-api-dev-deploy-$BITBUCKET_BUILD_NUMBER"
+    staging:
+      - step:
+          name: "Build"
+          script:
+            - export BUILD_ID=$BITBUCKET_BRANCH_$BITBUCKET_COMMIT_$BITBUCKET_BUILD_NUMBER
+            - echo $BUILD_ID > public/build.txt
+            - zip -r casemgr-staging.zip ./.
+          artifacts:
+            - casemgr-staging.zip
+      - step:
+          name: "Deploy to staging"
+          deployment: "staging"
+          trigger: manual
+          script:
+            - pipe: atlassian/aws-elasticbeanstalk-deploy:0.2.7
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: "us-west-2"
+                APPLICATION_NAME: "CaseMGR API"
+                ENVIRONMENT_NAME: "casemgr-staging"
+                ZIP_FILE: "casemgr-staging.zip"
+                S3_BUCKET: "elasticbeanstalk-us-west-2-804711636895"
+                VERSION_LABEL: "casemgr-api-staging-deploy-$BITBUCKET_BUILD_NUMBER"
+    master:
+      - step:
+          name: "Build"
+          script:
+            - export BUILD_ID=$BITBUCKET_BRANCH_$BITBUCKET_COMMIT_$BITBUCKET_BUILD_NUMBER
+            - echo $BUILD_ID > public/build.txt
+            - zip -r casemgr-prod.zip ./.
+          artifacts:
+            - casemgr-prod.zip
+      - step:
+          name: "Deploy to production"
+          deployment: "production"
+          trigger: manual
+          script:
+            - pipe: atlassian/aws-elasticbeanstalk-deploy:0.2.7
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: "us-west-2"
+                APPLICATION_NAME: "CaseMGR API"
+                ENVIRONMENT_NAME: "casemgr-prod-symfony-44"
+                ZIP_FILE: "casemgr-prod.zip"
+                S3_BUCKET: "elasticbeanstalk-us-west-2-804711636895"
+                VERSION_LABEL: "casemgr-api-prod-deploy-$BITBUCKET_BUILD_NUMBER"
+

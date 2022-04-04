@@ -1,0 +1,22 @@
+{% extends 'layout-pdf.html.twig' %}
+
+{% block body %}
+    <table width="100%">
+        <p>{{ first_row }}</p>
+        <p>{{ second_row }}</p>
+        <thead>
+        {% for column in columns %}
+        <th style="text-align: left">{{ column }}</th>
+        {% endfor %}
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr>
+                {% for value in message %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

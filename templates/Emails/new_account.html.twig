@@ -1,0 +1,28 @@
+{% extends 'Emails/default_email.html.twig' %}
+{% block preheader %}{{ account.organizationName }} has invited you to join CaseMGR. Please click the link below to activate your account.{% endblock %}
+{% block heading %}Welcome to CaseMGR{% endblock %}
+{% block content %}
+<p>Dear {{ user.data.getFirstName() }},</p>
+<p>
+    {{ account.organizationName }} has invited you to join CaseMGR. Please click the link below to activate your account.<br>
+    {% if account.isMain() %}
+        <a href="https://{{ mainUrl }}/confirmation/{{ user.confirmationToken }}">https://{{ mainUrl }}/confirmation/
+            {{ user.confirmationToken|length > 10 ? user.confirmationToken|slice(0, 10) ~ '...' :user.confirmationToken }}</a>
+    {% else %}
+        <a href="https://{{ account.data.accountUrl }}/confirmation/{{ user.confirmationToken }}">https://{{ account.data.accountUrl }}/confirmation/{{ user.confirmationToken|length > 10 ? user.confirmationToken|slice(0, 10) ~ '...' :user.confirmationToken }}</a>
+    {% endif %}
+</p>
+
+<p>
+    Your CaseMGR domain is:<br>
+    {% if account.isMain() %}
+        <a href="https://{{ mainUrl }}">{{ mainUrl }}</a>
+    {% else %}
+        <a href="https://{{ account.data.accountUrl }}">{{ account.data.accountUrl }}</a>
+    {% endif %}
+</p>
+
+<p>
+    Once you’ve activated your account and set a password, you’ll be able to start using the CaseMGR workspace.
+</p>
+{% endblock %}

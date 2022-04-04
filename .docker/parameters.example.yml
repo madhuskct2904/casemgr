@@ -1,0 +1,34 @@
+parameters:
+  database_host: mysql
+  database_port: null
+  database_name: casemgr
+  database_user: casemgr
+  database_password: casemgr
+  database_server_version: 5.7
+  reports_database_host: mysql
+  reports_database_port: null
+  reports_database_name: casemgr_reports
+  reports_database_user: root
+  reports_database_password: secret
+  reports_database_server_version: 5.7
+  # mailer_dsn: smtp://admin@example.com:pass@127.0.0.1:22
+  mailer_dsn: null://null
+  mailer_from: null
+  mailer_user: admin@example.com
+  secret: ThisTokenIsNotSoSecretChangeIt
+  session_max_idle_time: 3600
+  security_key: test123456789098765
+  frontend_domain: null
+  twilio_sid: ACf564c9a4706b7d6a26a526889ba7999c
+  twilio_token: 410685e3bed5ab17d5634c1525c4d061
+  aws_bucket_name: media.casemgr.io
+  aws_base_url: 'http://media.casemgr.io.s3-website-us-west-2.amazonaws.com'
+  aws_key: AKIAJZO72YRWQIY6ORYQ
+  aws_secret: 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
+  aws_version: latest
+  aws_region: us-west-2
+  aws_avatars_folder: avatars
+  aws_forms_folder: forms
+  aws_imports_folder: imports
+  aws_workspace_shared_files_folder: workspace_shared_files
+  message_callback_url: 'https://ff15890a.ngrok.io/app_dev.php/messages/callback/receive'

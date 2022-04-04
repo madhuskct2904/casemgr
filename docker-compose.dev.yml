@@ -1,0 +1,68 @@
+version: '2'
+
+services:
+    mysql:
+        image: mariadb:10.5.8
+        container_name: casemgr-mysql
+        ports:
+            - "3307:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: 'secret'
+            MYSQL_DATABASE: 'casemgr'
+            MYSQL_USER: 'casemgr'
+            MYSQL_PASSWORD: 'casemgr'
+        volumes:
+            - ./.docker/mysql-data/:/var/lib/mysql
+        user: ${CUID}:${CGID}
+        command: mysqld --sql_mode=""
+    nginx:
+        build:
+            context: ./
+            dockerfile: .docker/nginx/Dockerfile
+        container_name: casemgr-nginx
+        ports:
+            - "80:80"
+        links:
+            - php
+            - mysql
+        volumes_from:
+            - php
+        volumes:
+            - ./.docker/logs/nginx/:/var/log/nginx
+    php:
+        build:
+            context: ./
+            dockerfile: .docker/php/Dockerfile
+            args:
+                - CUID=${CUID}
+                - CGID=${CGID}
+                - CUNAME=${CUNAME}
+        container_name: casemgr-php
+        ports:
+            - "9001:9000"
+        volumes:
+            - ./:/var/www/app:cached
+            - ./.docker/keys/:/root/.ssh
+            - ./.docker/logs/symfony/:/var/www/app/var/logs/
+            - ./.docker/logs/php-fpm/:/var/log/php-fpm/
+#            - /var/www/app/.docker/
+        environment:
+              PHP_IDE_CONFIG: serverName=casemgr.local
+              PHP_XDEBUG_ENABLED: 0
+        links:
+            - mysql
+        user: ${CUID}:${CGID}
+#    phpmyadmin:
+#        image: phpmyadmin/phpmyadmin
+#        container_name: casemgr-phpmyadmin
+#        ports:
+#            - "81:80"
+#        environment:
+#            PMA_HOST: 'mysql'
+#        links:
+#            - mysql
+    mailhog:
+        image: mailhog/mailhog:latest
+        container_name: casemgr-mailhog
+        ports:
+            - 8026:8025

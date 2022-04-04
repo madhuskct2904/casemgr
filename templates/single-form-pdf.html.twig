@@ -1,0 +1,26 @@
+{% extends 'layout-pdf.html.twig' %}
+
+{% block body %}
+    <h3>{{ formName }}</h3>
+    <table>
+        <tbody>
+        {% for item in data %}
+            <tr>
+                {% if item.type == "text-entry" %}
+                    <td colspan="2"> {{ item.value|raw }}</td>
+
+                {% else %}
+                <td>{{ item.title }}</td>
+                <td>
+                    {% if item.value is iterable and item.value.src is defined and item.value.src %}
+                        <img src="{{ absolute_url(asset(item.value.src)) }}">
+                    {% else %}
+                        {{ item.value }}
+                    {% endif %}
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'layout-pdf.html.twig' %}
+
+{% block body %}
+    <p>Date of export {{ date }}</p>
+    {% for key, form in data.data %}
+        <h3>{{ data.names[key] }}</h3>
+        <table>
+            <tbody>
+            {% for name, value in form %}
+                <tr>
+                    <td>{{ name }}</td>
+                    <td>
+                        {% if value is iterable and value.src is defined and value.src %}
+                            <img src="{{ absolute_url(asset(value.src)) }}">
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+{% endblock %}

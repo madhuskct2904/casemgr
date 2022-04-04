@@ -1,0 +1,17 @@
+{% extends 'Emails/default_email.html.twig' %}
+{% block preheader %}{{ account.organizationName }} has invited you to join the CaseMGR workspace.{% endblock %}
+{% block heading %}Welcome to CaseMGR{% endblock %}
+{% block content %}
+<p>
+    {{ account.organizationName }} has invited you to join the CaseMGR workspace. 
+</p>
+
+<p>
+    Your CaseMGR domain is:<br>
+    <a href="https://{{ account.data.accountUrl }}">https://{{ account.data.accountUrl }}</a>
+</p>
+
+<p>
+    Once you've signed in, you'll be able to start using the CaseMGR workspace. To view your new CaseMGR workspace, hover over the Administrative Settings menu, click View As and set your default workspace.
+</p>
+{% endblock %}

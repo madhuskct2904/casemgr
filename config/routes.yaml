@@ -1,0 +1,10 @@
+app:
+  resource: 'routes.php'
+# The `default` route below exists to catch 404s and return a blank page.  Routes in `routes.php`
+# above will be matched first, and anything else will be send to `FallbackController::default`
+# This is intended to stop bot traffic from sending thousands of errors to Sentry.
+default:
+  path:  '{wildcard}'
+  controller: \App\Controller\FallbackController::default
+  requirements:
+      wildcard: .*

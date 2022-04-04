@@ -1,0 +1,255 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+imports:
+    - { resource: parameters.yaml }
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $awsFormsFolder: "%aws_forms_folder%"
+            $awsImportsFolder: "%aws_imports_folder%"
+            $emailSenders: "%email_senders%"
+            $projectDir: "%kernel.project_dir%"
+            $s3BucketName: "%aws_bucket_name%"
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    app.shared_form_communication_strategy.email:
+        class: App\Service\SharedFormMessageStrategy\ViaEmailStrategy
+        public: true
+
+    app.shared_form_communication_strategy.sms:
+        class: App\Service\SharedFormMessageStrategy\ViaSMSStrategy
+        public: true
+        arguments:
+            $callbackUrl: "%message_callback_url%"
+
+    App\Service\S3ClientFactory:
+        arguments:
+            $key: '%env(AWS_KEY)%'
+            $secret: '%env(AWS_SECRET)%'
+            $region: '%env(AWS_REGION)%'
+            $version: '%env(AWS_VERSION)%'
+
+    Casemgr\Pii\Pii:
+        arguments:
+            $securityKey: "%env(SECURITY_KEY)%"
+
+    App\Service\FileUploader:
+        arguments:
+            $target_dir: '%avatar_directory%'
+
+
+    # EVENT LISTENERS
+
+    App\EventListener\FormsValuesListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'App\Event\FormsValuesCreatedEvent', method: 'onFormsValuesCreated' }
+
+    App\EventListener\CaseNotesListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'App\Event\CaseNotesCreatedEvent', method: 'onCaseNotesCreated' }
+
+    App\EventListener\MassMessagesListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'App\Event\MassMessagesCreatedEvent', method: 'onMassMessagesCreated' }
+
+    App\EventListener\FormListener:
+        tags:
+            - { name: kernel.event_listener, event: 'App\Event\FormCreatedEvent', method: onFormCreated }
+            - { name: kernel.event_listener, event: 'App\Event\FormUpdatedEvent', method: onFormUpdated }
+
+    App\EventListener\FormDataListener:
+        tags:
+            - { name: kernel.event_listener, event: 'App\Event\FormDataRemovedEvent', method: onFormDataRemoved }
+
+    App\EventListener\ParticipantListener:
+        tags:
+            -   name: kernel.event_listener
+                event: App\Event\ParticipantRemovedEvent
+                method: onParticipantRemoved
+                priority: 0
+
+    App\EventListener\ReferralListener:
+        tags:
+            -   name: kernel.event_listener
+                event: App\Event\ReferralEnrolledEvent
+                method: onReferralEnrolled
+                priority: 0
+            -   name: kernel.event_listener
+                event: App\Event\ReferralNotEnrolledEvent
+                method: onReferralNotEnrolled
+                priority: 0
+
+    App\EventListener\ApiExceptionSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
+
+    App\EventListener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    App\EventListener\UsersSubscriber:
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    App\EventListener\UsersListener:
+        tags:
+            -   name: kernel.event_listener
+                event: App\Event\UserLoginSuccessEvent
+                method: onUserLoginSuccess
+            -   name: kernel.event_listener
+                event: App\Event\UserLoginFailureEvent
+                method: onUserLoginFailure
+            -   name: kernel.event_listener
+                event: App\Event\UserLogoutEvent
+                method: onUserLogout
+            -   name: kernel.event_listener
+                event: App\Event\UserSecurityViolationEvent
+                method: onUserSecurityViolation
+            -   name: kernel.event_listener
+                event: App\Event\UserSessionTimeoutEvent
+                method: onUserSessionTimeout
+            -   name: kernel.event_listener
+                event: App\Event\UserSwitchedAccountEvent
+                method: onUserSwitchedAccount
+            -   name: kernel.event_listener
+                event: App\Event\UserLastActionEvent
+                method: onUserLastAction
+
+    App\EventListener\MessagesListener:
+        tags:
+            - { name: kernel.event_listener, event: App\Event\MessagesCreatedEvent, method: onMessagesCreated }
+
+    App\EventListener\AccountsSubscriber:
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    App\EventListener\SharedFormListener:
+        tags:
+            -   name: kernel.event_listener
+                event: App\Event\TwilioCallbackErrorEvent
+                method: onTwilioCallbackError
+            -   name: kernel.event_listener
+                event: App\Event\TwilioCallbackDeliveredEvent
+                method: onTwilioCallbackDelivered
+            -   name: kernel.event_listener
+                event: App\Event\SharedFormSubmittedEvent
+                method: onSharedFormSubmitted
+            -   name: kernel.event_listener
+                event: App\Event\SharedFormSentEvent
+                method: onSharedFormSent
+            -   name: kernel.event_listener
+                event: App\Event\SharedFormSendingFailedEvent
+                method: onSharedFormSendingFailed
+
+    # MESSAGES
+    App\Service\MessageService:
+        arguments:
+            $messagingApiToken: '%messaging_api_token%'
+            $messagingApiUrl: '%messaging_api_url%'
+
+    # PARTICIPANTS SERVICES
+    App\Service\AccountFormsService:
+        arguments:
+            $modulesConfig: '%modules%'
+
+    # WORKERS
+    App\Worker\EmailSenderWorker:
+        tags:
+            - { name: "dtc_queue.worker" }
+
+    App\Domain\DataImport\ImportWorker:
+        tags:
+           - { name: "dtc_queue.worker" }
+
+
+    App\Service\Request:
+        public: true
+
+    App\Service\Response:
+        public: true
+
+    App\Service\UserService:
+        public: true
+
+    App\Service\Participants\IndividualsDirectoryService:
+        public: true
+
+    App\Service\UrlParser:
+        public: true
+        arguments:
+            $frontendDomain: '%frontend_domain%'
+
+    App\Service\LoggerFactoryService:
+        public: true
+
+    App\Service\EventDispatcherFactoryService:
+        public: true
+
+    App\Service\AssignmentFormsService:
+        public: true
+
+    App\Domain\DataImport\ImportFormValidator:
+        autowire: false
+
+    App\Service\Referrals\ReferralHelper:
+        public: true
+
+    app.import.worker_handler.form:
+        class: App\Domain\DataImport\ImportWorkerFormHandler
+        public: true
+
+    app.import.worker_handler.note:
+        class: App\Domain\DataImport\ImportWorkerNoteHandler
+        public: true
+
+    App\Handler\:
+        resource: '../src/Handler/'
+
+    App\Handler\Modules\MembersProfileHandler:
+        public: true
+
+    App\Handler\Modules\ParticipantsProfileHandler:
+        public: true
+
+    App\Handler\Modules\ParticipantsAssignmentHandler:
+        public: true
+
+    # REPORTS
+
+    App\Service\ReportsService:
+        arguments:
+            $entityManager: "@doctrine.orm.entity_manager"
+            $reportsCacheEntityManager: "@doctrine.orm.reports_entity_manager"
+
+    App\Service\ReportGenerator:
+        arguments:
+            $entityManager: "@doctrine.orm.entity_manager"
+            $reportsCacheEntityManager: "@doctrine.orm.reports_entity_manager"
+
+    App\Domain\Reports\ReportSummaryGenerator:
+        arguments:
+            $entityManager: "@doctrine.orm.entity_manager"
+            $reportsCacheEntityManager: "@doctrine.orm.reports_entity_manager"

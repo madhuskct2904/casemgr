@@ -1,0 +1,13 @@
+{% extends 'Emails/default_email.html.twig' %}
+{% block preheader %}Password Reset{% endblock %}
+{% block heading %}Password Reset{% endblock %}
+{% block content %}
+<p>
+    Recently you asked us to reset your password for your CaseMGR account. Please click on the link below to reset your password:<br>
+    <a href="https://{{ mainUrl }}/remind/{{ user.confirmationToken }}">https://{{ mainUrl }}/remind/{{ user.confirmationToken|length > 10 ? user.confirmationToken|slice(0, 10) ~ '...' :user.confirmationToken }}</a>
+</p>
+
+<p>
+    If you did not request a password reset, please ignore this email. If you have any other questions about your account, please respond to this email.
+</p>
+{% endblock %}

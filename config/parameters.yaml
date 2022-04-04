@@ -1,0 +1,102 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    locale: en
+    avatar_directory: '%kernel.project_dir%/public/uploads/avatar'
+    forms_uploads_directory: '%kernel.project_dir%/public/uploads/forms'
+    modules:
+        participant_forms:
+            core:
+                - participants_profile
+                - participants_contact
+                - participants_assignment
+            multiple:
+                - activities_services
+                - assessment_outcomes
+                - individuals_referral
+            organization:
+                - organization_general
+                - organization_organization
+        member_forms:
+            core:
+                - members_profile
+                - participants_contact
+                - participants_assignment
+            multiple:
+                - activities_services
+                - assessment_outcomes
+                - members_referral
+            organization:
+                - organization_general
+                - organization_organization
+    email_senders:
+        support:
+            name : 'CaseMGR Support'
+            email : 'support@casemgrsolutions.com'
+        sales:
+            name : 'CaseMGR Sales'
+            email : 'sales@casemgrsolutions.com'
+        noreply:
+            name: 'CaseMGR'
+            email: 'noreply@casemgrsolutions.com'
+    organization_widgets:
+        - id: 1
+          name: 'CaseloadSummary'
+          label: 'Caseload Summary'
+        - id: 2
+          name: 'ActivityFeed'
+          label: 'Activity Feed'
+        - id: 3
+          name: 'TopReports'
+          label: 'Top 5 Reports'
+        - id: 4
+          name: 'ReferralFeed'
+          label: 'Referral Feed'
+        - id: 5
+          name: 'Calendar'
+          label: 'Calendar'
+
+    mailer_transport: "%env(MAILER_TRANSPORT)%"
+    mailer_host: "%env(MAILER_HOST)%"
+    mailer_user: "%env(MAILER_USER)%"
+    mailer_password: "%env(MAILER_PASSWORD)%"
+    mailer_auth_mode: "%env(MAILER_AUTHMODE)%"
+    mailer_port: "%env(MAILER_PORT)%"
+    mailer_encryption: "%env(MAILER_ENCRYPTION)%"
+    mailer_from: "%env(MAILER_FROM)%"
+
+    # A secret key that's used to generate certain security-related tokens
+    secret: "%env(APP_SECRET)%"
+
+    # Session time
+    session_max_idle_time: 3600
+
+    # Security key
+    security_key: "%env(SECURITY_KEY)%"
+
+    # Frontend domain
+    frontend_domain: "%env(FRONTEND_DOMAIN)%"
+
+    #s3Bucket
+    aws_bucket_name: "%env(AWS_BUCKET_NAME)%"
+    aws_base_url: "%env(AWS_BASE_URL)%"
+    aws_key: "%env(AWS_KEY)%"
+    aws_secret: "%env(AWS_SECRET)%"
+    aws_version: "%env(AWS_VERSION)%"
+    aws_region: "%env(AWS_REGION)%"
+    aws_avatars_folder: "%env(AWS_AVATARS_FOLDER)%"
+    aws_forms_folder: "%env(AWS_FORMS_FOLDER)%"
+    aws_imports_folder: "%env(AWS_IMPORTS_FOLDER)%"
+    aws_workspace_shared_files_folder: "%env(AWS_WORKSPACE_SHARED_FILES_FOLDER)%"
+    aws_workspace_public_files_folder: "%env(AWS_WORKSPACE_PUBLIC_FILES_FOLDER)%"
+
+    message_callback_url: "%env(MESSAGE_CALLBACK_URL)%"
+
+    captcha_public: "%env(CAPTCHA_PUBLIC)%"
+    captcha_secret: "%env(CAPTCHA_SECRET)%"
+
+    sentry_endpoint: "%env(SENTRY_ENDPOINT)%"
+
+    messaging_api_url: "%env(MESSAGING_API_URL)%"
+    messaging_api_token: "%env(MESSAGING_API_TOKEN)%"
